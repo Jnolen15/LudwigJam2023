@@ -707,6 +707,20 @@ MonoBehaviour:
   busLocation: 0
   catList:
   - {fileID: 4669602019522604630, guid: e9fb704cb3ed1dc4db3f0f35f0ac7848, type: 3}
+  - {fileID: 3133991807670694518, guid: aa064a2a13f00ee418dfc5baf8cb35d8, type: 3}
+  - {fileID: 7888283071536851779, guid: 9a07c86a0a0f8dd4e9fba0562e71e2a3, type: 3}
+  - {fileID: 6414617034630963437, guid: 6c6443ae3e0721f408e824251215e1c1, type: 3}
+  - {fileID: 5799406506016259762, guid: ecc52b50bde14a849a13caf6a2471673, type: 3}
+  - {fileID: 7389051255727892705, guid: 72989dc4e2ecb234f8317ff5b5173918, type: 3}
+  - {fileID: 1335951352634320042, guid: c5b5cbdc77203a0479c8dd14a856c7be, type: 3}
+  - {fileID: 2254769423332323444, guid: ed6c12209b09e98439acfa04d49d18fd, type: 3}
+  - {fileID: 3166648614055145210, guid: 4033383ee0bcff342a1b9a963cb986ad, type: 3}
+  - {fileID: 6596162280513526678, guid: c390b1363ae0aeb4ba18a95debb6aaea, type: 3}
+  - {fileID: 1147666816439433089, guid: b8502a453b75cfb46b9ef9042a22e496, type: 3}
+  - {fileID: 3528391322422386303, guid: 526e13c9ab18f5e40b8006399645874c, type: 3}
+  - {fileID: 6565245973917971926, guid: 25bf20441edd6f2488e88cab2762b602, type: 3}
+  - {fileID: 7263681467806927847, guid: 3c949b399b6996d478e70d50d9f31a4e, type: 3}
+  - {fileID: 1969359285920794154, guid: f4f438c8a7d5614418caeab27aa01251, type: 3}
   stopList: []
   Passengers: []
 --- !u!114 &837948599
