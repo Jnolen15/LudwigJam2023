@@ -30,7 +30,7 @@ public class BusControl : MonoBehaviour
 
             for (int i = 0; i < numCats; i++)
             {
-                Cats.Add(new Passenger(Random.Range(1, 5)));
+                Cats.Add(new Passenger(Random.Range(2, 5)));
             }
         }
     }
@@ -56,7 +56,7 @@ public class BusControl : MonoBehaviour
 
     void Update()
     {
-        if(!busIsStopped)
+        if (!busIsStopped)
             MoveBus();
 
         // For testing
