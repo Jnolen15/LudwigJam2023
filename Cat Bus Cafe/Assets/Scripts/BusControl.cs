@@ -59,6 +59,7 @@ public class BusControl : MonoBehaviour
         seatControl = this.GetComponent<SeatControl>();
 
         GenerateStop();
+        StopBus();
     }
 
     void Update()
