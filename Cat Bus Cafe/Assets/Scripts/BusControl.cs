@@ -8,10 +8,10 @@ public class BusControl : MonoBehaviour
     [SerializeField] private float busSpeed;
     [SerializeField] private float stopRange;
     [SerializeField] private float stopGenDistance;
-    [SerializeField] private float busLocation;
+    public float busLocation;
+    public BusStop nextStop;
     // LISTS
     public List<GameObject> catList = new List<GameObject>();
-    public List<BusStop> stopList = new List<BusStop>();
     public List<Passenger> Passengers = new List<Passenger>();
     // MISC
     private SeatControl seatControl;
@@ -73,17 +73,17 @@ public class BusControl : MonoBehaviour
         }
     }
 
+
     // ============ BUS CONTROL ============
     private void MoveBus()
     {
         busLocation += busSpeed * Time.deltaTime;
 
-        if (stopList.Count <= 0)
+        if (nextStop == null)
             return;
 
-        var stop = stopList[0];
-        if (stop.distance < busLocation)
-            MissedStop(stop);
+        if (nextStop.distance < busLocation)
+            MissedStop(nextStop);
     }
 
     public void StopBus()
@@ -105,36 +105,36 @@ public class BusControl : MonoBehaviour
 
     private void TryArriveAtStop()
     {
-        if (stopList.Count <= 0)
+        if (nextStop == null)
             return;
 
-        var stop = stopList[0];
-        if ((stop.distance - busLocation) > stopRange)
+        if ((nextStop.distance - busLocation) > stopRange)
             return;
 
         // Let off passengers
-        Debug.Log("Arrived at stop: " + stop.name + " Distance away: " + (stop.distance - busLocation));
+        Debug.Log("Arrived at stop: " + nextStop.name + " Distance away: " + (nextStop.distance - busLocation));
         UpdatePassengerStops();
         LetOffPassengers();
 
         // Add new passengers
-        foreach (Passenger newCat in stop.Cats)
+        foreach (Passenger newCat in nextStop.Cats)
         {
             Passengers.Add(newCat);
             seatControl.AssignSeat(newCat.cat);
         }
 
         // Remove stop and look for another
-        stopList.Remove(stop);
-        TryArriveAtStop();
+        nextStop = null;
+        GenerateStop();
     }
 
     private void MissedStop(BusStop stop)
     {
         Debug.Log("Missed stop: " + stop.name + "!");
-        stopList.Remove(stop);
+        nextStop = null;
 
         UpdatePassengerStops();
+        GenerateStop();
     }
 
     private void UpdatePassengerStops()
@@ -176,7 +176,7 @@ public class BusControl : MonoBehaviour
         }
 
         var newStop = new BusStop(busLocation + stopGenDistance, newCats);        
-        stopList.Add(newStop);
+        nextStop = newStop;
     }
 
     private GameObject GetRandomCat()
