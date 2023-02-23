@@ -11,23 +11,111 @@ public class Cat : MonoBehaviour
         public Snack.Flavor flava;
         public bool wifMilk;
         public bool wifBoba;
+
+        public void PrintOrder()
+        {
+            string milk = "";
+            if (wifMilk)
+                milk = " with milk";
+            else
+                milk = " no milk";
+
+            string boba = "";
+            if (wifBoba)
+                boba = " with boba.";
+            else
+                boba = " no boba.";
+
+            Debug.Log("Snack: " + snacky + " Flava: " + flava + milk + boba);
+        }
     }
+    
     public SnackOrder newSnack = new SnackOrder();
+    public string requestMessage;
+    public bool waitingForOrder;
+    public bool orderDelivered;
+    private bool noDrink;
+
+    private void Start()
+    {
+        RequestSnack();
+    }
 
     private void OnMouseDown()
     {
-        RequestSnack();
+        if (waitingForOrder)
+        {
+            var pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+            pc.GiveMeSnack(this);
+        }
 
-        newSnack.snacky = Snack.SnackType.Nothing;
-        newSnack.flava = Snack.Flavor.Nothing;
-        newSnack.wifMilk = false;
-        newSnack.wifBoba = false;
+        if (!orderDelivered)
+        {
+            Debug.Log(requestMessage);
+            waitingForOrder = true;
+        }
+    }
+
+    public void GiveSnackOrder(SnackOrder order)
+    {
+        waitingForOrder = false;
+        orderDelivered = true;
+
+        Debug.Log("I asked for ");
+        newSnack.PrintOrder();
+
+        Debug.Log("You gave me ");
+        order.PrintOrder();
+
+        int score = 4;
+
+        // IF cat did not order a drink
+        if (noDrink)
+        {
+            // And they were given one
+            if(order.flava != Snack.Flavor.Nothing || order.wifMilk || order.wifBoba)
+                score -= 3;
+        } else
+        {
+            // They wern't given a drink
+            if (order.flava == Snack.Flavor.Nothing || !order.wifMilk || !order.wifBoba)
+            {
+                score -= 3;
+            }
+            // They were
+            else
+            {
+                // Did the flavor match?
+                if (order.flava != newSnack.flava)
+                    score--;
+                // Did the toppings match?
+                if (order.wifMilk != newSnack.wifMilk)
+                    score--;
+                if (order.wifBoba != newSnack.wifBoba)
+                    score--;
+            }
+        }
+
+        // Did the snack match?
+        if (order.snacky != newSnack.snacky)
+        {
+            // If it diddn't and thats all they wanted loose more
+            if (noDrink)
+                score -= 3;
+            else
+                score--;
+        }
+
+        // Lowest possible is 0
+        if (score < 0) score = 0;
+
+        Debug.Log("Your score: " + score);
     }
 
     public void RequestSnack()
     {
-        bool noDrink = false;
-        string requestMessage = "";
+        noDrink = false;
+        requestMessage = "";
         //SnackOrder newSnack = new SnackOrder();
 
         // Intro
@@ -114,7 +202,7 @@ public class Cat : MonoBehaviour
             if (!noDrink)
             {
                 // Intro
-                rand = Random.Range(0, 3);
+                rand = Random.Range(0, 4);
                 if (rand == 0)
                     requestMessage += " Oh, and I'll have a";
                 else if (rand == 1)
@@ -161,8 +249,8 @@ public class Cat : MonoBehaviour
         if (noDrink && newSnack.snacky == Snack.SnackType.Nothing)
         {
             requestMessage = "Could I get a... uh... um... wait I'm not hungry. Ok nevermind then.";
+            waitingForOrder = false;
+            orderDelivered = true;
         }
-
-        Debug.Log(requestMessage);
     }
 }

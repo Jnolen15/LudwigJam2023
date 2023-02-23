@@ -6,7 +6,8 @@ public class SnackControl : MonoBehaviour
 {
     public GameObject snackPrefab;
     public List<Transform> spots = new List<Transform>();
-
+    public Transform finishedSpot;
+    [SerializeField] private PlayerControl playerControl;
     [SerializeField] private GameObject mover;
     [SerializeField] private GameObject curSnack;
     [SerializeField] private Snack curSnackScript;
@@ -199,6 +200,12 @@ public class SnackControl : MonoBehaviour
             return;
 
         Debug.Log("Treat Finished!");
+
+        curSnack.transform.transform.position = finishedSpot.position;
+        curSnack.transform.transform.rotation = finishedSpot.rotation;
+
+        playerControl.TakeSnack(curSnack);
+
         mover.SetActive(false);
         makingSnack = false;
         justaSnack = false;
