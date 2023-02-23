@@ -93,6 +93,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7389051255727892707}
+  - component: {fileID: 3462974316921939024}
+  - component: {fileID: -1719108574788644742}
   m_Layer: 0
   m_Name: Cat_Ders
   m_TagString: Untagged
@@ -116,3 +118,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3462974316921939024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7389051255727892705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e293d2998a56d041a3a67837df51470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newSnack:
+    snacky: 0
+    flava: 0
+    wifMilk: 0
+    wifBoba: 0
+--- !u!65 &-1719108574788644742
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7389051255727892705}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0.5, z: 0}
