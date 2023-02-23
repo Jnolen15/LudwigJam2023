@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Snack : MonoBehaviour
 {
+    public GameObject cup;
     public GameObject square;
     public GameObject pop;
     public GameObject ring;
+    public GameObject justaSquare;
+    public GameObject justaPop;
+    public GameObject justaRing;
     public List<snackVisual> materialList = new List<snackVisual>();
 
     [System.Serializable]
@@ -41,10 +45,15 @@ public class Snack : MonoBehaviour
 
     public void UpdateMaterial()
     {
+        cup.SetActive(true);
+
         // Show the snack
         pop.SetActive(false);
         square.SetActive(false);
         ring.SetActive(false);
+        justaPop.SetActive(false);
+        justaSquare.SetActive(false);
+        justaRing.SetActive(false);
 
         switch (snackType)
         {
@@ -80,9 +89,35 @@ public class Snack : MonoBehaviour
             // Set material
             if (isCorrect)
             {
-                transform.GetChild(0).GetComponent<Renderer>().material = visual.mat;
+                cup.GetComponent<Renderer>().material = visual.mat;
                 break;
             }
+        }
+    }
+
+    public void JustASnack()
+    {
+        // Disable cup
+        cup.SetActive(false);
+
+        // Show the snack
+        justaPop.SetActive(false);
+        justaSquare.SetActive(false);
+        justaRing.SetActive(false);
+
+        switch (snackType)
+        {
+            case SnackType.Nothing:
+                break;
+            case SnackType.Pop:
+                justaPop.SetActive(true);
+                break;
+            case SnackType.Square:
+                justaSquare.SetActive(true);
+                break;
+            case SnackType.Ring:
+                justaRing.SetActive(true);
+                break;
         }
     }
 }

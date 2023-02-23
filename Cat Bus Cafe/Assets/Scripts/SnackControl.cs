@@ -11,6 +11,7 @@ public class SnackControl : MonoBehaviour
     [SerializeField] private GameObject curSnack;
     [SerializeField] private Snack curSnackScript;
     [SerializeField] private bool makingSnack;
+    [SerializeField] private bool justaSnack;
     [SerializeField] private int snackPos = -1;
 
     public void MoveNext()
@@ -62,6 +63,22 @@ public class SnackControl : MonoBehaviour
         curSnack = Instantiate(snackPrefab, spots[snackPos].position, spots[snackPos].rotation);
         curSnackScript = curSnack.GetComponent<Snack>();
         makingSnack = true;
+        justaSnack = false;
+        mover.SetActive(true);
+    }
+
+    public void CreateNewSnackJustTreat()
+    {
+        if (makingSnack)
+            return;
+
+        snackPos = 4;
+        mover.transform.transform.position = spots[snackPos].position;
+        curSnack = Instantiate(snackPrefab, spots[snackPos].position, spots[snackPos].rotation);
+        curSnackScript = curSnack.GetComponent<Snack>();
+        curSnackScript.JustASnack();
+        makingSnack = true;
+        justaSnack = true;
         mover.SetActive(true);
     }
 
@@ -69,6 +86,8 @@ public class SnackControl : MonoBehaviour
     {
         if (snackPos != 1)
             return;
+
+        justaSnack = false;
 
         switch (curSnackScript.flavor)
         {
@@ -95,6 +114,8 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 2)
             return;
 
+        justaSnack = false;
+
         switch (curSnackScript.flavor)
         {
             case Snack.Flavor.Nothing:
@@ -120,6 +141,8 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 3)
             return;
 
+        justaSnack = false;
+
         curSnackScript.hasMilk = true;
 
         curSnackScript.UpdateMaterial();
@@ -131,6 +154,8 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 3)
             return;
 
+        justaSnack = false;
+
         curSnackScript.hasBoba = true;
 
         curSnackScript.UpdateMaterial();
@@ -139,6 +164,9 @@ public class SnackControl : MonoBehaviour
 
     public void AddSnack(string type)
     {
+        if (!makingSnack)
+            CreateNewSnackJustTreat();
+
         if (snackPos != 4)
             return;
 
@@ -158,7 +186,10 @@ public class SnackControl : MonoBehaviour
                 break;
         }
 
-        curSnackScript.UpdateMaterial();
+        if(justaSnack)
+            curSnackScript.JustASnack();
+        else
+            curSnackScript.UpdateMaterial();
         Debug.Log("Added snack");
     }
 
@@ -170,6 +201,7 @@ public class SnackControl : MonoBehaviour
         Debug.Log("Treat Finished!");
         mover.SetActive(false);
         makingSnack = false;
+        justaSnack = false;
         curSnack = null;
         curSnackScript = null;
         snackPos = -1;
