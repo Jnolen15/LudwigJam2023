@@ -78,7 +78,7 @@ public class Cat : MonoBehaviour
         } else
         {
             // They wern't given a drink
-            if (order.flava == Snack.Flavor.Nothing || !order.wifMilk || !order.wifBoba)
+            if (order.flava == Snack.Flavor.Nothing && !order.wifMilk && !order.wifBoba)
             {
                 score -= 3;
             }
