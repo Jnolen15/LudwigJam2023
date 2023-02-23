@@ -9,23 +9,9 @@ public class SnackControl : MonoBehaviour
 
     [SerializeField] private GameObject mover;
     [SerializeField] private GameObject curSnack;
+    [SerializeField] private Snack curSnackScript;
     [SerializeField] private bool makingSnack;
     [SerializeField] private int snackPos = -1;
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            CreateNewSnack();
-
-        if (makingSnack)
-        {
-            if (Input.GetKeyDown(KeyCode.D))
-                MoveNext();
-
-            if (Input.GetKeyDown(KeyCode.A))
-                MoveBack();
-        }
-    }
 
     public void MoveNext()
     {
@@ -74,6 +60,7 @@ public class SnackControl : MonoBehaviour
         snackPos = 0;
         mover.transform.transform.position = spots[snackPos].position;
         curSnack = Instantiate(snackPrefab, spots[snackPos].position, spots[snackPos].rotation);
+        curSnackScript = curSnack.GetComponent<Snack>();
         makingSnack = true;
         mover.SetActive(true);
     }
@@ -83,22 +70,23 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 1)
             return;
 
-        switch (curSnack.GetComponent<Snack>().flavor)
+        switch (curSnackScript.flavor)
         {
             case Snack.Flavor.Nothing:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Green;
+                curSnackScript.flavor = Snack.Flavor.Green;
                 break;
             case Snack.Flavor.Green:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Green;
+                curSnackScript.flavor = Snack.Flavor.Green;
                 break;
             case Snack.Flavor.Red:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Blend;
+                curSnackScript.flavor = Snack.Flavor.Blend;
                 break;
             case Snack.Flavor.Blend:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Blend;
+                curSnackScript.flavor = Snack.Flavor.Blend;
                 break;
         }
 
+        curSnackScript.UpdateMaterial();
         Debug.Log("Added green flavor");
     }
 
@@ -107,22 +95,23 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 2)
             return;
 
-        switch (curSnack.GetComponent<Snack>().flavor)
+        switch (curSnackScript.flavor)
         {
             case Snack.Flavor.Nothing:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Red;
+                curSnackScript.flavor = Snack.Flavor.Red;
                 break;
             case Snack.Flavor.Green:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Blend;
+                curSnackScript.flavor = Snack.Flavor.Blend;
                 break;
             case Snack.Flavor.Red:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Red;
+                curSnackScript.flavor = Snack.Flavor.Red;
                 break;
             case Snack.Flavor.Blend:
-                curSnack.GetComponent<Snack>().flavor = Snack.Flavor.Blend;
+                curSnackScript.flavor = Snack.Flavor.Blend;
                 break;
         }
 
+        curSnackScript.UpdateMaterial();
         Debug.Log("Added green flavor");
     }
 
@@ -131,7 +120,9 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 3)
             return;
 
-        curSnack.GetComponent<Snack>().hasMilk = true;
+        curSnackScript.hasMilk = true;
+
+        curSnackScript.UpdateMaterial();
         Debug.Log("Added milk");
     }
 
@@ -140,7 +131,9 @@ public class SnackControl : MonoBehaviour
         if (snackPos != 3)
             return;
 
-        curSnack.GetComponent<Snack>().hasBoba = true;
+        curSnackScript.hasBoba = true;
+
+        curSnackScript.UpdateMaterial();
         Debug.Log("Added Boba");
     }
 
@@ -152,19 +145,20 @@ public class SnackControl : MonoBehaviour
         switch (type)
         {
             case "Nothing":
-                curSnack.GetComponent<Snack>().snackType = Snack.SnackType.Nothing;
+                curSnackScript.snackType = Snack.SnackType.Nothing;
                 break;
             case "Pop":
-                curSnack.GetComponent<Snack>().snackType = Snack.SnackType.Pop;
+                curSnackScript.snackType = Snack.SnackType.Pop;
                 break;
             case "Ring":
-                curSnack.GetComponent<Snack>().snackType = Snack.SnackType.Ring;
+                curSnackScript.snackType = Snack.SnackType.Ring;
                 break;
             case "Square":
-                curSnack.GetComponent<Snack>().snackType = Snack.SnackType.Square;
+                curSnackScript.snackType = Snack.SnackType.Square;
                 break;
         }
 
+        curSnackScript.UpdateMaterial();
         Debug.Log("Added snack");
     }
 
@@ -177,6 +171,7 @@ public class SnackControl : MonoBehaviour
         mover.SetActive(false);
         makingSnack = false;
         curSnack = null;
+        curSnackScript = null;
         snackPos = -1;
     }
 }
