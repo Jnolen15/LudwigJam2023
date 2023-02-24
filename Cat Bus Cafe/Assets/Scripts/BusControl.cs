@@ -15,7 +15,7 @@ public class BusControl : MonoBehaviour
     public List<Passenger> Passengers = new List<Passenger>();
     // MISC
     private SeatControl seatControl;
-    private bool busIsStopped;
+    public bool busIsStopped;
 
     // BUS STOP CLASS
     [System.Serializable]
