@@ -13,6 +13,8 @@ public class BusControl : MonoBehaviour
     // LISTS
     public List<GameObject> catList = new List<GameObject>();
     public List<Passenger> Passengers = new List<Passenger>();
+    public List<Passenger> Leaving = new List<Passenger>();
+    public List<Passenger> Boarding = new List<Passenger>();
     // MISC
     private SeatControl seatControl;
     public bool busIsStopped;
@@ -104,31 +106,6 @@ public class BusControl : MonoBehaviour
         busIsStopped = false;
     }
 
-    private void TryArriveAtStop()
-    {
-        if (nextStop == null)
-            return;
-
-        if ((nextStop.distance - busLocation) > stopRange)
-            return;
-
-        // Let off passengers
-        Debug.Log("Arrived at stop: " + nextStop.name + " Distance away: " + (nextStop.distance - busLocation));
-        UpdatePassengerStops();
-        LetOffPassengers();
-
-        // Add new passengers
-        foreach (Passenger newCat in nextStop.Cats)
-        {
-            Passengers.Add(newCat);
-            seatControl.AssignSeat(newCat.cat);
-        }
-
-        // Remove stop and look for another
-        nextStop = null;
-        GenerateStop();
-    }
-
     private void MissedStop(BusStop stop)
     {
         Debug.Log("Missed stop: " + stop.name + "!");
@@ -146,12 +123,49 @@ public class BusControl : MonoBehaviour
         }
     }
 
+    private void TryArriveAtStop()
+    {
+        if (nextStop == null)
+            return;
+
+        if ((nextStop.distance - busLocation) > stopRange)
+            return;
+
+        // Let off passengers
+        Debug.Log("Arrived at stop: " + nextStop.name + " Distance away: " + (nextStop.distance - busLocation));
+        UpdatePassengerStops();
+        LetOffPassengers();
+
+        // Add new passengers to boarding list
+        foreach (Passenger newCat in nextStop.Cats)
+        {
+            //Passengers.Add(newCat);
+            //seatControl.AssignSeat(newCat.cat);
+            Boarding.Add(newCat);
+        }
+
+        // Remove stop and look for another
+        nextStop = null;
+        GenerateStop();
+
+        // Animate Passengers
+        StartCoroutine(AnimateBoarding());
+    }
+
     private void LetOffPassengers()
     {
         if (Passengers.Count <= 0)
             return;
 
+        // Look for passsenges who are ready to get off
         var newCat = Passengers[0];
+        foreach (Passenger curCat in Passengers)
+        {
+            newCat = curCat;
+            if (curCat.stopNum <= 0)
+                break;
+        }
+        // If this passenger still has stops > 0, then none need to get off
         if (newCat.stopNum > 0)
             return;
 
@@ -159,11 +173,40 @@ public class BusControl : MonoBehaviour
         Debug.Log("Letting off: " + newCat.name);
 
         // Remove stop and look for another
-        seatControl.UnassignSeat(newCat.cat);
+        //seatControl.UnassignSeat(newCat.cat);
         Passengers.Remove(newCat);
+        Leaving.Add(newCat);
         LetOffPassengers();
     }
 
+    private IEnumerator AnimateBoarding()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        // Animate leaving passenders
+        foreach (Passenger newCat in Leaving)
+        {
+            seatControl.UnassignSeat(newCat.cat);
+        }
+
+        Leaving.Clear();
+
+        yield return new WaitForSeconds(0.6f);
+
+        // Add new passengers
+        foreach (Passenger newCat in Boarding)
+        {
+            var seatOpen = seatControl.AssignSeat(newCat.cat);
+            if(seatOpen != null)
+                Passengers.Add(newCat);
+            else
+            {
+                Debug.Log("Cat could not be let on");
+            }
+        }
+
+        Boarding.Clear();
+    }
 
     // ============ GENERATION ============
     private void GenerateStop()
