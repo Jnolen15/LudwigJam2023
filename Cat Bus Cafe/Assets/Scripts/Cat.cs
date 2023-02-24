@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Cat : MonoBehaviour
 {
+    private DialogueManager dlog;
+
     [System.Serializable]
     public class SnackOrder
     {
@@ -38,6 +40,8 @@ public class Cat : MonoBehaviour
 
     private void Start()
     {
+        dlog = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueManager>();
+
         RequestSnack();
     }
 
@@ -51,7 +55,9 @@ public class Cat : MonoBehaviour
 
         if (!orderDelivered)
         {
-            Debug.Log(requestMessage);
+            dlog.TypeDialogue(requestMessage, gameObject.name);
+
+            //Debug.Log(requestMessage);
             waitingForOrder = true;
         }
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Border
   - Bus
+  - UI
   layers:
   - Default
   - TransparentFX
