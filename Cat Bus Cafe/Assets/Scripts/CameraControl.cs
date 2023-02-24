@@ -8,20 +8,30 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform snackPos;
     [SerializeField] private Transform mainPos;
     private bool moving;
+    private bool atMain = true;
+    private bool atSnack;
 
     public void MoveToSnack()
     {
-        if (!moving)
-            StartCoroutine(MoveCamera(snackPos, 50));
+        if (!moving && !atSnack)
+        {
+            atSnack = true;
+            atMain = false;
+            StartCoroutine(MoveCamera(snackPos));
+        }
     }
 
     public void MoveToMain()
     {
-        if (!moving)
-            StartCoroutine(MoveCamera(mainPos, 65));
+        if (!moving && !atMain)
+        {
+            atMain = true;
+            atSnack = false;
+            StartCoroutine(MoveCamera(mainPos));
+        }
     }
 
-    public IEnumerator MoveCamera(Transform movePos, float newFOV)
+    public IEnumerator MoveCamera(Transform movePos)
     {
         moving = true;
         float time = 0;
@@ -37,7 +47,7 @@ public class CameraControl : MonoBehaviour
 
             Camera.main.transform.position = Vector3.Lerp(startPos, movePos.position, t);
             Camera.main.transform.rotation = Quaternion.Lerp(startRot, movePos.rotation, t);
-            Camera.main.fieldOfView = Mathf.Lerp(startFOV, newFOV, t);
+            //Camera.main.fieldOfView = Mathf.Lerp(startFOV, newFOV, t);
 
             time += Time.deltaTime;
             yield return null;
