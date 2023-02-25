@@ -35,12 +35,14 @@ public class GameManager : MonoBehaviour
             // Do an event
             if (bs.Passengers.Count > 0)
             {
-                var rand = Random.Range(0, 2);
+                var rand = Random.Range(0, 4);
                 var randPassenger = Random.Range(0, bs.Passengers.Count);
-                if(rand == 0)
+                if (rand == 0)
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestSnack();
                 else if (rand == 1)
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestPet();
+                else if (rand > 1)
+                    bs.Passengers[randPassenger].cat.GetComponent<Cat>().ThrowTrash();
             }
         }
     }

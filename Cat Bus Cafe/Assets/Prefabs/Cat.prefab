@@ -390,6 +390,7 @@ MonoBehaviour:
   excalamtionMarker: {fileID: 544584577874530457}
   Pet1: {fileID: 1115769122632678981}
   Pet2: {fileID: 2966977728402727410}
+  trash: {fileID: 633750013361408126, guid: 147075a9c6d32ab4097abdd2959d2d14, type: 3}
   newSnack:
     snacky: 0
     flava: 0
@@ -398,11 +399,7 @@ MonoBehaviour:
   requestMessage: 
   hasOrdered: 0
   waitingForOrder: 0
-  petRequested: 0
-  inPetTime: 0
   petTime: 5
-  petTimer: 0
-  numPets: 0
 --- !u!65 &6172253945655404277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -411,7 +408,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4669602019522604630}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6, y: 1, z: 0.2}

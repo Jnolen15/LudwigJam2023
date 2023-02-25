@@ -38,17 +38,18 @@ public class Cat : MonoBehaviour
     public GameObject excalamtionMarker;
     public GameObject Pet1;
     public GameObject Pet2;
+    public GameObject trash;
     public SnackOrder newSnack = new SnackOrder();
     public string requestMessage;
     public bool hasOrdered;
     public bool waitingForOrder;
     private bool noDrink;
-    [SerializeField] private bool petRequested;
-    [SerializeField] private bool inPetAnim;
-    [SerializeField] private bool inPetTime;
+    private bool petRequested;
+    private bool inPetAnim;
+    private bool inPetTime;
     [SerializeField] private float petTime;
-    [SerializeField] private float petTimer;
-    [SerializeField] private int numPets;
+    private float petTimer;
+    private int numPets;
 
     private void Start()
     {
@@ -108,6 +109,14 @@ public class Cat : MonoBehaviour
         pop.GetComponent<Popup>().Setup(time, emotion);
     }
 
+    // ========= TRASH STUFF =========
+    public void ThrowTrash()
+    {
+        var garbage = Instantiate(trash, transform.position, transform.rotation);
+        garbage.GetComponent<Rigidbody>().AddForce(new Vector3(0, 2, -3), ForceMode.Impulse);
+    }
+    
+
     // ========= PET STUFF =========
     public void RequestPet()
     {
@@ -128,7 +137,7 @@ public class Cat : MonoBehaviour
         inPetAnim = false;
         Pet2.SetActive(false);
         Pet1.SetActive(false);
-        gManager.UpdatePoints(new string("Pets " + numPets), numPets / 3);
+        gManager.UpdatePoints(new string("Pets " + numPets), numPets / 5);
         React(2f, "Happy");
         numPets = 0;
         transform.GetChild(0).localScale = new Vector3(1, 1, 1);
@@ -394,6 +403,7 @@ public class Cat : MonoBehaviour
         if (noDrink && newSnack.snacky == Snack.SnackType.Nothing)
         {
             requestMessage = "Could I get a... uh... um... wait I'm not hungry. Ok nevermind then.";
+            gManager.UpdatePoints("Free Points?", 10);
             waitingForOrder = false;
             hasOrdered = false;
         }
