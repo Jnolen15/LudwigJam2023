@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private Transform startPos;
     [SerializeField] private Transform endPos;
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private TextMeshProUGUI endScoreText;
     [SerializeField] private bool gameTimerRunning;
     [SerializeField] private float gameTime;
     [SerializeField] private float gameTimer;
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
+
         gameTimer = gameTime;
         gameTimerRunning = true;
     }
@@ -48,7 +52,7 @@ public class GameManager : MonoBehaviour
             {
                 gameTimerRunning = false;
                 timeText.text = new string("00:00");
-                Debug.Log("GameOVer");
+                EndGame();
             }
         }
 
@@ -69,6 +73,14 @@ public class GameManager : MonoBehaviour
         float minutes = Mathf.FloorToInt(time / 60);
         float seconds = Mathf.FloorToInt(time % 60);
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+
+    public void EndGame()
+    {
+        Time.timeScale = 0;
+        endScreen.SetActive(true);
+        endScoreText.text = points.ToString(); ;
     }
 
     // ========= Events =========
