@@ -6,6 +6,7 @@ public class Cat : MonoBehaviour
 {
     private DialogueManager dlog;
     private GameManager gManager;
+    private AudioSource audio;
 
     [System.Serializable]
     public class SnackOrder
@@ -51,10 +52,19 @@ public class Cat : MonoBehaviour
     private float petTimer;
     private int numPets;
 
+    // Sounds
+    [SerializeField] private AudioClip meow1;
+    [SerializeField] private AudioClip meow2;
+    [SerializeField] private AudioClip pet1;
+    [SerializeField] private AudioClip pet2;
+    [SerializeField] private AudioClip purr;
+    [SerializeField] private AudioClip catMad;
+
     private void Start()
     {
         dlog = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueManager>();
         gManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        audio = this.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -83,6 +93,12 @@ public class Cat : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(PetAnim());
             numPets++;
+
+            var randSound = Random.Range(0, 2);
+            if (randSound == 0)
+                audio.PlayOneShot(pet1);
+            else if (randSound == 1)
+                audio.PlayOneShot(pet2);
         }
 
         // Snack dialogue stuff
@@ -104,6 +120,18 @@ public class Cat : MonoBehaviour
 
     public void React(float time, string emotion)
     {
+        // Sounds
+        if (emotion == "Angry" || emotion == "Spooked")
+            audio.PlayOneShot(catMad);
+        else
+        {
+            var randSound = Random.Range(0, 2);
+            if (randSound == 0)
+                audio.PlayOneShot(meow1);
+            else if (randSound == 1)
+                audio.PlayOneShot(meow2);
+        }
+
         Vector3 emojiSpawnPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
         var pop = Instantiate(popUp, emojiSpawnPos, transform.rotation);
         pop.GetComponent<Popup>().Setup(time, emotion);
@@ -120,6 +148,12 @@ public class Cat : MonoBehaviour
     // ========= PET STUFF =========
     public void RequestPet()
     {
+        var randSound = Random.Range(0, 2);
+        if (randSound == 0)
+            audio.PlayOneShot(meow1);
+        else if (randSound == 1)
+            audio.PlayOneShot(meow2);
+
         petRequested = true;
         excalamtionMarker.SetActive(true);
     }
@@ -128,6 +162,7 @@ public class Cat : MonoBehaviour
     {
         inPetTime = true;
         petTimer = petTime;
+        audio.PlayOneShot(purr);
     }
 
     public void EndPet()
@@ -265,6 +300,12 @@ public class Cat : MonoBehaviour
         // Only request if havnt ordered or not waiting for an order
         if (hasOrdered || waitingForOrder)
             return;
+
+        var randSound = Random.Range(0, 2);
+        if (randSound == 0)
+            audio.PlayOneShot(meow1);
+        else if (randSound == 1)
+            audio.PlayOneShot(meow2);
 
         excalamtionMarker.SetActive(true);
 

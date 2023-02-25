@@ -5,11 +5,15 @@ using UnityEngine;
 public class ToggleBus : MonoBehaviour
 {
     [SerializeField] private bool busGoing;
+    [SerializeField] private AudioClip rev;
+    [SerializeField] private AudioClip breaking;
     private BusControl bc;
+    private AudioSource audioSource;
 
     private void Start()
     {
         bc = GetComponentInParent<BusControl>();
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     private void OnMouseDown()
@@ -20,11 +24,13 @@ public class ToggleBus : MonoBehaviour
         {
             busGoing = !busGoing;
             bc.StopBus();
+            audioSource.PlayOneShot(breaking);
         }
         else
         {
             busGoing = !busGoing;
             bc.StartBus();
+            audioSource.PlayOneShot(rev);
         }
     }
 }

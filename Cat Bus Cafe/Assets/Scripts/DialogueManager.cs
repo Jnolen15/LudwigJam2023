@@ -14,6 +14,16 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] bool isTypying;
     [SerializeField] bool isFinished;
 
+    [SerializeField] private AudioClip talk1;
+    [SerializeField] private AudioClip talk2;
+    [SerializeField] private AudioClip talk3;
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = this.GetComponent<AudioSource>();
+    }
+
     public void ProgressText()
     {
         Debug.Log("Click");
@@ -25,6 +35,14 @@ public class DialogueManager : MonoBehaviour
             dlogText.text = curText;
             isFinished = true;
             isTypying = false;
+
+            var randSound = Random.Range(0, 3);
+            if (randSound == 0)
+                audioSource.PlayOneShot(talk1);
+            else if (randSound == 1)
+                audioSource.PlayOneShot(talk2);
+            else if (randSound == 1)
+                audioSource.PlayOneShot(talk3);
         }
         // Close if finished
         else if (isFinished)
@@ -78,8 +96,16 @@ public class DialogueManager : MonoBehaviour
         {
             dlogText.text += letterArray[i];
 
-            //if (0 == charCount % 2 && letterArray[i] != ' ')
-            //    uiReferences.boop.Play();
+            if (0 == charCount % 6)
+            {
+                var randSound = Random.Range(0, 3);
+                if (randSound == 0)
+                    audioSource.PlayOneShot(talk1);
+                else if (randSound == 1)
+                    audioSource.PlayOneShot(talk2);
+                else if (randSound == 1)
+                    audioSource.PlayOneShot(talk3);
+            }
             charCount++;
 
             yield return new WaitForSecondsRealtime(typingSpeed); 
