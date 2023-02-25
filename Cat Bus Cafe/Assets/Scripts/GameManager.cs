@@ -59,25 +59,9 @@ public class GameManager : MonoBehaviour
             float randSway = Random.Range(-3, 2);
             eventTime = eventTimer + randSway;
 
-            // Do an event
             if (bs.Passengers.Count > 0)
-            {
-                var rand = Random.Range(0, 6);
-                var randPassenger = Random.Range(0, bs.Passengers.Count);
-                if (rand < 2)
-                    bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestSnack();
-                else if (rand == 3)
-                    bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestPet();
-                else if (rand == 4)
-                    bs.Passengers[randPassenger].cat.GetComponent<Cat>().ThrowTrash();
-                else if (rand == 5)
-                    StartMuck();
-            }
+                DoEvent();
         }
-
-        // TESTING
-        if(Input.GetKeyDown(KeyCode.M))
-            StartMuck();
     }
 
     private void DisplayTime(float time)
@@ -87,6 +71,46 @@ public class GameManager : MonoBehaviour
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
+    // ========= Events =========
+    public void DoEvent()
+    {
+        var rand = Random.Range(0, 6);
+        if (rand == 0)
+            StartMuck();
+        else
+        {
+            var randPassenger = Random.Range(0, bs.Passengers.Count);
+
+            if (!CatIsOpenToTask(randPassenger))
+                return;
+
+            if (rand < 3)
+                bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestSnack();
+            else if (rand == 4)
+                bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestPet();
+            else if (rand == 5)
+                bs.Passengers[randPassenger].cat.GetComponent<Cat>().ThrowTrash();
+        }
+
+    }
+
+    private bool CatIsOpenToTask(int catNum)
+    {
+        var daCat = bs.Passengers[catNum].cat.GetComponent<Cat>();
+
+        bool canDoTask = true;
+
+        if (daCat.waitingForOrder)
+            canDoTask = false;
+        else if (daCat.hasOrdered)
+            canDoTask = false;
+        else if (daCat.petRequested)
+            canDoTask = false;
+
+        return canDoTask;
+    }
+
+    // ========= Points =========
     public void UpdatePoints(string message, int points)
     {
         Points += points;
@@ -111,7 +135,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Window Muck Task
+    // ========= Window Muck Task =========
     private void StartMuck()
     {
         windowMuck.SetActive(true);

@@ -44,7 +44,7 @@ public class Cat : MonoBehaviour
     public bool hasOrdered;
     public bool waitingForOrder;
     private bool noDrink;
-    private bool petRequested;
+    public bool petRequested;
     private bool inPetAnim;
     private bool inPetTime;
     [SerializeField] private float petTime;
