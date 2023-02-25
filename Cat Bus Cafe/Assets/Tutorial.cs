@@ -8,6 +8,7 @@ public class Tutorial : MonoBehaviour
     [System.Serializable]
     public class TutSegment
     {
+        [TextArea]
         public string sentence;
         public GameObject arrow;
         public bool lookAtSnack;
