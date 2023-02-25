@@ -3,21 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DialogueManager : MonoBehaviour
+public class Tutorial : MonoBehaviour
 {
+    [System.Serializable]
+    public class TutSegment
+    {
+        public string sentence;
+        public GameObject arrow;
+        public bool lookAtSnack;
+    }
+
+    public List<TutSegment> tutorialList = new List<TutSegment>();
+    [SerializeField] private int textPos;
+
+    // Yea I just yoinked DialogueManager script to modify it some. Running low on time
+    [SerializeField] private CameraControl cam;
+    [SerializeField] private MainMenu mm;
     [SerializeField] private GameObject textBox;
     [SerializeField] private TextMeshProUGUI dlogText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private float typingSpeed;
-    string curText;
     [SerializeField] bool textisOpen;
     [SerializeField] bool isTypying;
     [SerializeField] bool isFinished;
+    [SerializeField] bool lookSnack;
+    string curText;
+
+    private void Start()
+    {
+        ToggleDialogue(true);
+
+        // Text stuff
+        isFinished = false;
+        dlogText.text = "";
+        TypeNextDialogue(tutorialList[textPos]);
+    }
 
     public void ProgressText()
     {
-        Debug.Log("Click");
-
         // skip text
         if (isTypying)
         {
@@ -26,11 +49,37 @@ public class DialogueManager : MonoBehaviour
             isFinished = true;
             isTypying = false;
         }
-        // Close if finished
+        // Go to next if finished
         else if (isFinished)
         {
-            ToggleDialogue(false);
+            // Hide past arrows
+            if (tutorialList[textPos].arrow != null)
+                tutorialList[textPos].arrow.SetActive(false);
+
+            textPos++;
+
+            // Return to main when over
+            if (textPos >= tutorialList.Count)
+            {
+                mm.Main();
+                return;
+            }
+
+            // Text stuff
+            isFinished = false;
             dlogText.text = "";
+            TypeNextDialogue(tutorialList[textPos]);
+
+            // Move camera
+            if (lookSnack != tutorialList[textPos].lookAtSnack)
+            {
+                lookSnack = tutorialList[textPos].lookAtSnack;
+
+                if (lookSnack)
+                    cam.MoveToSnack();
+                else
+                    cam.MoveToMain();
+            }
         }
     }
 
@@ -50,16 +99,19 @@ public class DialogueManager : MonoBehaviour
     }
 
     // Refrenced by other scripts to type text
-    public void TypeDialogue(string words, string name)
+    public void TypeNextDialogue(TutSegment segment)
     {
         if (!textisOpen)
             ToggleDialogue(true);
 
         if (!isTypying)
         {
-            curText = words;
-            nameText.text = name;
+            curText = segment.sentence;
+            nameText.text = "Coots";
             StartCoroutine(TypeLineCharacters(curText));
+
+            if(segment.arrow != null)
+                segment.arrow.SetActive(true);
         }
     }
 
@@ -82,8 +134,8 @@ public class DialogueManager : MonoBehaviour
             //    uiReferences.boop.Play();
             charCount++;
 
-            yield return new WaitForSecondsRealtime(typingSpeed); 
-            
+            yield return new WaitForSecondsRealtime(typingSpeed);
+
             //i = line.Length;
         }
 
