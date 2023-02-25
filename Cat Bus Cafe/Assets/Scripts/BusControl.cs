@@ -120,6 +120,8 @@ public class BusControl : MonoBehaviour
         foreach (Passenger cat in Passengers)
         {
             cat.stopNum--;
+            if (cat.stopNum < 0)
+                cat.cat.GetComponent<Cat>().React(5f, "Angry");
         }
     }
 
@@ -168,6 +170,9 @@ public class BusControl : MonoBehaviour
         // If this passenger still has stops > 0, then none need to get off
         if (newCat.stopNum > 0)
             return;
+
+        if (newCat.stopNum == 0)
+            newCat.cat.GetComponent<Cat>().React(5f, "Happy");
 
         // Let off passenger
         Debug.Log("Letting off: " + newCat.name);

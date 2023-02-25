@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
 
     public void ProgressText()
     {
+        Debug.Log("Click");
+
         // skip text
         if (isTypying)
         {

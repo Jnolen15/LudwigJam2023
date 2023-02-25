@@ -32,17 +32,20 @@ public class Cat : MonoBehaviour
         }
     }
     
+    public string cName;
+    public GameObject popUp;
+    public GameObject excalamtionMarker;
     public SnackOrder newSnack = new SnackOrder();
     public string requestMessage;
+    public bool hasOrdered;
     public bool waitingForOrder;
-    public bool orderDelivered;
     private bool noDrink;
 
     private void Start()
     {
         dlog = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueManager>();
 
-        RequestSnack();
+        //RequestSnack();
     }
 
     private void OnMouseDown()
@@ -51,21 +54,28 @@ public class Cat : MonoBehaviour
         {
             var pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
             pc.GiveMeSnack(this);
+            hasOrdered = false;
+            waitingForOrder = false;
         }
 
-        if (!orderDelivered)
+        if (hasOrdered)
         {
-            dlog.TypeDialogue(requestMessage, gameObject.name);
-
-            //Debug.Log(requestMessage);
+            dlog.TypeDialogue(requestMessage, cName);
+            excalamtionMarker.SetActive(false);
             waitingForOrder = true;
         }
+    }
+
+    public void React(float time, string emotion)
+    {
+        Vector3 emojiSpawnPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        var pop = Instantiate(popUp, emojiSpawnPos, transform.rotation);
+        pop.GetComponent<Popup>().Setup(time, emotion);
     }
 
     public void GiveSnackOrder(SnackOrder order)
     {
         waitingForOrder = false;
-        orderDelivered = true;
 
         Debug.Log("I asked for ");
         newSnack.PrintOrder();
@@ -73,15 +83,61 @@ public class Cat : MonoBehaviour
         Debug.Log("You gave me ");
         order.PrintOrder();
 
-        int score = 4;
+        int score = CalculateScore(order);
+
+        // Response
+        string response = "";
+        string emote = "";
+        if (score == 0)
+        {
+            response += "This isn't what I asked for at all!";
+            emote = "Angry";
+        }
+        else if (score == 1)
+        {
+            response += "I think you gave me the wrong order?";
+            emote = "Spooked";
+        }
+        else if (score == 2)
+        {
+            response += "I guess this works.";
+            emote = "Sad";
+        }
+        else if (score == 3)
+        {
+            response += "Not quite what I ordered, but thanks.";
+            emote = "Neutral";
+        }
+        else if (score == 4)
+        {
+            response += "Thanks.";
+            emote = "Happy";
+        }
+        else if (score == 5)
+        {
+            response += "Perfect! Thank you.";
+            emote = "Pog";
+        }
+
+        response += (" " + score + "/5");
+
+        React(3f, emote);
+
+        dlog.TypeDialogue(response, cName);
+    }
+
+    private int CalculateScore(SnackOrder order)
+    {
+        int score = 5;
 
         // IF cat did not order a drink
         if (noDrink)
         {
             // And they were given one
-            if(order.flava != Snack.Flavor.Nothing || order.wifMilk || order.wifBoba)
+            if (order.flava != Snack.Flavor.Nothing || order.wifMilk || order.wifBoba)
                 score -= 3;
-        } else
+        }
+        else
         {
             // They wern't given a drink
             if (order.flava == Snack.Flavor.Nothing && !order.wifMilk && !order.wifBoba)
@@ -116,13 +172,20 @@ public class Cat : MonoBehaviour
         if (score < 0) score = 0;
 
         Debug.Log("Your score: " + score);
+        return score;
     }
 
     public void RequestSnack()
     {
+        // Only request if havnt ordered or not waiting for an order
+        if (hasOrdered || waitingForOrder)
+            return;
+
+        excalamtionMarker.SetActive(true);
+
+        hasOrdered = true;
         noDrink = false;
         requestMessage = "";
-        //SnackOrder newSnack = new SnackOrder();
 
         // Intro
         var rand = Random.Range(0, 4);
@@ -256,7 +319,7 @@ public class Cat : MonoBehaviour
         {
             requestMessage = "Could I get a... uh... um... wait I'm not hungry. Ok nevermind then.";
             waitingForOrder = false;
-            orderDelivered = true;
+            hasOrdered = false;
         }
     }
 }
