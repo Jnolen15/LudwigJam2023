@@ -123,7 +123,7 @@ public class Cat : MonoBehaviour
 
         React(3f, emote);
         dlog.TypeDialogue(response, cName);
-        gManager.UpdatePoints("Order Delivered", score);
+        gManager.UpdatePoints("Treat Made", score);
     }
 
     private int CalculateScore(SnackOrder order)

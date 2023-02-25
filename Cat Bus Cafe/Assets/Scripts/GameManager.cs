@@ -6,6 +6,9 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI pointsText;
+    [SerializeField] private TextMeshProUGUI pointsReasonText;
+    [SerializeField] private Transform startPos;
+    [SerializeField] private Transform endPos;
     [SerializeField] private float eventTime;
     [SerializeField] private float eventTimer;
     [SerializeField] private BusControl bs;
@@ -41,5 +44,24 @@ public class GameManager : MonoBehaviour
     public void UpdatePoints(string message, int points)
     {
         Points += points;
+        pointsReasonText.text = message + " +" + points;
+        StopAllCoroutines();
+        StartCoroutine(AnimatePoints());
+    }
+
+    IEnumerator AnimatePoints()
+    {
+        float time = 0;
+
+        while (time < 1f)
+        {
+            float t = time / 1f;
+            t = t * t * (3f - 2f * t);
+
+            pointsReasonText.transform.position = Vector3.Lerp(startPos.position, endPos.position, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
     }
 }

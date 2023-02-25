@@ -17,6 +17,7 @@ public class BusControl : MonoBehaviour
     public List<Passenger> Boarding = new List<Passenger>();
     // MISC
     private SeatControl seatControl;
+    private GameManager gManager;
     public bool busIsStopped;
 
     // BUS STOP CLASS
@@ -58,6 +59,7 @@ public class BusControl : MonoBehaviour
 
     void Start()
     {
+        gManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         seatControl = this.GetComponent<SeatControl>();
 
         GenerateStop();
@@ -189,16 +191,25 @@ public class BusControl : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         // Animate leaving passenders
+        int numRightDropOffs = 0;
         foreach (Passenger newCat in Leaving)
         {
+            if (newCat.stopNum == 0)
+                numRightDropOffs++;
+
             seatControl.UnassignSeat(newCat.cat);
         }
+
+        // Give points
+        if(numRightDropOffs > 0)
+            gManager.UpdatePoints(new string("On-Time Dropoff (" + numRightDropOffs + ")"), numRightDropOffs*5);
 
         Leaving.Clear();
 
         yield return new WaitForSeconds(0.6f);
 
         // Add new passengers
+        gManager.UpdatePoints(new string("Picked up cats"), Boarding.Count * 1);
         foreach (Passenger newCat in Boarding)
         {
             var seatOpen = seatControl.AssignSeat(newCat.cat);
