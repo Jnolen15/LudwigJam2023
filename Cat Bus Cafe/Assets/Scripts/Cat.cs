@@ -36,11 +36,19 @@ public class Cat : MonoBehaviour
     public string cName;
     public GameObject popUp;
     public GameObject excalamtionMarker;
+    public GameObject Pet1;
+    public GameObject Pet2;
     public SnackOrder newSnack = new SnackOrder();
     public string requestMessage;
     public bool hasOrdered;
     public bool waitingForOrder;
     private bool noDrink;
+    [SerializeField] private bool petRequested;
+    [SerializeField] private bool inPetAnim;
+    [SerializeField] private bool inPetTime;
+    [SerializeField] private float petTime;
+    [SerializeField] private float petTimer;
+    [SerializeField] private int numPets;
 
     private void Start()
     {
@@ -48,8 +56,35 @@ public class Cat : MonoBehaviour
         gManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
+    private void Update()
+    {
+        if (inPetTime)
+        {
+            if (petTimer > 0) 
+                petTimer -= Time.deltaTime;
+            else
+                EndPet();
+        }
+    }
+
     private void OnMouseDown()
     {
+        // Pet time stuff
+        if (petRequested)
+        {
+            excalamtionMarker.SetActive(false);
+            petRequested = false;
+            StartPet();
+        }
+
+        if (inPetTime && !inPetAnim)
+        {
+            StopAllCoroutines();
+            StartCoroutine(PetAnim());
+            numPets++;
+        }
+
+        // Snack dialogue stuff
         if (waitingForOrder)
         {
             var pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
@@ -73,6 +108,47 @@ public class Cat : MonoBehaviour
         pop.GetComponent<Popup>().Setup(time, emotion);
     }
 
+    // ========= PET STUFF =========
+    public void RequestPet()
+    {
+        petRequested = true;
+        excalamtionMarker.SetActive(true);
+    }
+
+    public void StartPet()
+    {
+        inPetTime = true;
+        petTimer = petTime;
+    }
+
+    public void EndPet()
+    {
+        StopAllCoroutines();
+        inPetTime = false;
+        inPetAnim = false;
+        Pet2.SetActive(false);
+        Pet1.SetActive(false);
+        gManager.UpdatePoints(new string("Pets " + numPets), numPets / 3);
+        React(2f, "Happy");
+        numPets = 0;
+        transform.GetChild(0).localScale = new Vector3(1, 1, 1);
+    }
+
+    IEnumerator PetAnim()
+    {
+        inPetAnim = true;
+        var sprite = transform.GetChild(0);
+        sprite.localScale = new Vector3(1.1f, 0.9f, 1);
+        Pet1.SetActive(false);
+        Pet2.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        Pet2.SetActive(false);
+        Pet1.SetActive(true);
+        sprite.localScale = new Vector3(1, 1, 1);
+        inPetAnim = false;
+    }
+
+    // ========= SNACK STUFF =========
     public void GiveSnackOrder(SnackOrder order)
     {
         waitingForOrder = false;
