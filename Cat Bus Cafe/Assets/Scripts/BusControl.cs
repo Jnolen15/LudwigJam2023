@@ -62,7 +62,20 @@ public class BusControl : MonoBehaviour
         gManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         seatControl = this.GetComponent<SeatControl>();
 
-        GenerateStop();
+        //GenerateStop();
+
+        // Create first stop
+        Passenger[] newCats = new Passenger[2];
+        for (int i = 0; i < 2; i++)
+        {
+            var newCat = new Passenger(Random.Range(2, 5), GetRandomCat());
+            newCats[i] = newCat;
+        }
+
+        var newStop = new BusStop(busLocation, newCats);
+        nextStop = newStop;
+
+
         StopBus();
     }
 
@@ -235,7 +248,8 @@ public class BusControl : MonoBehaviour
             newCats[i] = newCat;
         }
 
-        var newStop = new BusStop(busLocation + stopGenDistance, newCats);        
+        var distance = (stopGenDistance + Random.Range(-10, 20));
+        var newStop = new BusStop(busLocation + distance, newCats);        
         nextStop = newStop;
     }
 

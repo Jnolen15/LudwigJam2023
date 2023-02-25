@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float eventTime;
     [SerializeField] private float eventTimer;
     [SerializeField] private BusControl bs;
-
+    [SerializeField] private GameObject windowMuck;
     [SerializeField] private int points;
 
     public int Points
@@ -56,21 +56,28 @@ public class GameManager : MonoBehaviour
         if (eventTime > 0) eventTime -= Time.deltaTime;
         else
         {
-            eventTime = eventTimer;
+            float randSway = Random.Range(-3, 2);
+            eventTime = eventTimer + randSway;
 
             // Do an event
             if (bs.Passengers.Count > 0)
             {
-                var rand = Random.Range(0, 4);
+                var rand = Random.Range(0, 6);
                 var randPassenger = Random.Range(0, bs.Passengers.Count);
-                if (rand == 0)
+                if (rand < 2)
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestSnack();
-                else if (rand == 1)
+                else if (rand == 3)
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().RequestPet();
-                else if (rand > 1)
+                else if (rand == 4)
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().ThrowTrash();
+                else if (rand == 5)
+                    StartMuck();
             }
         }
+
+        // TESTING
+        if(Input.GetKeyDown(KeyCode.M))
+            StartMuck();
     }
 
     private void DisplayTime(float time)
@@ -102,5 +109,18 @@ public class GameManager : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+    }
+
+    // Window Muck Task
+    private void StartMuck()
+    {
+        windowMuck.SetActive(true);
+        bs.StopBus();
+    }
+
+    public void CleanMuck()
+    {
+        windowMuck.SetActive(false);
+        UpdatePoints("Cleaned Window", 4);
     }
 }

@@ -21,11 +21,8 @@ public class Mover : MonoBehaviour
             var step = moveSpeed * Time.deltaTime;
             transform.Translate(Vector3.forward * step);
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Border"))
+        if(transform.position.x > 35)
         {
             transform.position = new Vector3(neighborSnapPoint.position.x, transform.position.y, transform.position.z);
         }
