@@ -7,8 +7,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private TextMeshProUGUI pointsReasonText;
+    [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private Transform startPos;
     [SerializeField] private Transform endPos;
+    [SerializeField] private bool gameTimerRunning;
+    [SerializeField] private float gameTime;
+    [SerializeField] private float gameTimer;
     [SerializeField] private float eventTime;
     [SerializeField] private float eventTimer;
     [SerializeField] private BusControl bs;
@@ -25,8 +29,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        gameTimer = gameTime;
+        gameTimerRunning = true;
+    }
+
     void Update()
     {
+        // Game Timer
+        if (gameTimerRunning)
+        {
+            if (gameTimer > 0)
+            {
+                gameTimer -= Time.deltaTime;
+                DisplayTime(gameTimer);
+            } else
+            {
+                gameTimerRunning = false;
+                timeText.text = new string("00:00");
+                Debug.Log("GameOVer");
+            }
+        }
+
+        // Random Event Timer
         if (eventTime > 0) eventTime -= Time.deltaTime;
         else
         {
@@ -45,6 +71,13 @@ public class GameManager : MonoBehaviour
                     bs.Passengers[randPassenger].cat.GetComponent<Cat>().ThrowTrash();
             }
         }
+    }
+
+    private void DisplayTime(float time)
+    {
+        float minutes = Mathf.FloorToInt(time / 60);
+        float seconds = Mathf.FloorToInt(time % 60);
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     public void UpdatePoints(string message, int points)
