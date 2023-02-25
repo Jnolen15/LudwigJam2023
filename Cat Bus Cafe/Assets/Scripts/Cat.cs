@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cat : MonoBehaviour
 {
     private DialogueManager dlog;
+    private GameManager gManager;
 
     [System.Serializable]
     public class SnackOrder
@@ -44,8 +45,7 @@ public class Cat : MonoBehaviour
     private void Start()
     {
         dlog = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueManager>();
-
-        //RequestSnack();
+        gManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     private void OnMouseDown()
@@ -122,8 +122,8 @@ public class Cat : MonoBehaviour
         response += (" " + score + "/5");
 
         React(3f, emote);
-
         dlog.TypeDialogue(response, cName);
+        gManager.UpdatePoints("Order Delivered", score);
     }
 
     private int CalculateScore(SnackOrder order)

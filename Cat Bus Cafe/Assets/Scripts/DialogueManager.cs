@@ -30,6 +30,7 @@ public class DialogueManager : MonoBehaviour
             StopAllCoroutines();
             dlogText.text = curText;
             isFinished = true;
+            isTypying = false;
         }
         // Close if finished
         else if (isFinished)
