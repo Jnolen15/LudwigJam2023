@@ -126,6 +126,9 @@ public class BusControl : MonoBehaviour
         Debug.Log("Missed stop: " + stop.name + "!");
         nextStop = null;
 
+        // Update Bus sign
+        this.GetComponent<SignAnimator>().ResetSign();
+
         UpdatePassengerStops();
         GenerateStop();
     }
@@ -160,6 +163,9 @@ public class BusControl : MonoBehaviour
             //seatControl.AssignSeat(newCat.cat);
             Boarding.Add(newCat);
         }
+
+        // Update Bus sign
+        this.GetComponent<SignAnimator>().ResetSign();
 
         // Remove stop and look for another
         nextStop = null;

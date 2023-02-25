@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class SignAnimator : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer signRenderer;
+    [SerializeField] private Sprite defaultSprite;
     [SerializeField] private float animDist;
     [SerializeField] private List<AnimPoint> animPoints = new List<AnimPoint>();
     [SerializeField] private int animCount;
     [SerializeField] private float curInterval;
-    [SerializeField] private bool isAnimating;
     private BusControl bc;
 
     [System.Serializable]
     public class AnimPoint
     {
-        public GameObject spot;
+        public Sprite sprite;
         public float interval;
     }
 
@@ -27,26 +28,15 @@ public class SignAnimator : MonoBehaviour
     {
         if ((bc.nextStop.distance - bc.busLocation) < animDist)
         {
-            if (!isAnimating)
-                StartAnimating();
-
             UpdateSign();
-        } 
-        else if(isAnimating)
-            EndAnimating();
+        }
     }
 
-    private void StartAnimating()
+    public void ResetSign()
     {
         animCount = 0;
         curInterval = 0;
-        isAnimating = true;
-    }
-
-    private void EndAnimating()
-    {
-        SetAllInactive();
-        isAnimating = false;
+        signRenderer.sprite = defaultSprite;
     }
 
     private void UpdateSign()
@@ -58,17 +48,8 @@ public class SignAnimator : MonoBehaviour
 
         if (curInterval <= animPoints[animCount].interval)
         {
-            SetAllInactive();
-            animPoints[animCount].spot.SetActive(true);
+            signRenderer.sprite = animPoints[animCount].sprite;
             animCount++;
-        }
-    }
-
-    private void SetAllInactive()
-    {
-        foreach (AnimPoint point in animPoints)
-        {
-            point.spot.SetActive(false);
         }
     }
 }
