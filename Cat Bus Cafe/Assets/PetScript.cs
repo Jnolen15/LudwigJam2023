@@ -6,7 +6,15 @@ public class PetScript : MonoBehaviour
 {
     public GameObject Pet1;
     public GameObject Pet2;
+    public AudioClip sound1;
+    public AudioClip sound2;
     private bool inPetAnim;
+    private AudioSource audio;
+
+    private void Start()
+    {
+        audio = this.GetComponent<AudioSource>();
+    }
 
     public void OnMouseDown()
     {
@@ -14,6 +22,12 @@ public class PetScript : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(PetAnim());
+
+            var rand = Random.Range(0, 2);
+            if (rand == 0)
+                audio.PlayOneShot(sound1);
+            else if (rand == 1)
+                audio.PlayOneShot(sound2);
         }
     }
 
