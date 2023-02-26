@@ -5,6 +5,7 @@ using UnityEngine;
 public class SignAnimator : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer signRenderer;
+    [SerializeField] private GameObject indicator;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private float animDist;
     [SerializeField] private List<AnimPoint> animPoints = new List<AnimPoint>();
@@ -30,6 +31,11 @@ public class SignAnimator : MonoBehaviour
         {
             UpdateSign();
         }
+
+        if (signRenderer.sprite == animPoints[3].sprite)
+            indicator.SetActive(true);
+        else
+            indicator.SetActive(false);
     }
 
     public void ResetSign()

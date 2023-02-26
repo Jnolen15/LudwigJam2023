@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 77b95673cdd00e540a2c667f73112ce1
+guid: ea5b257f3ebec4b43ab21acb550d3e3f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -127,112 +127,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: BusScreenStopAnim_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 100
-        width: 111
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fd940c431e10da14f9e8e4ea6afae123
-      internalID: 1421248823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusScreenStopAnim_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 75
-        width: 111
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bb2ce2c75c8df0641a3a4a22d7dad7c8
-      internalID: -1493267766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusScreenStopAnim_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 50
-        width: 111
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1d9a591ce2e00144099787e7f0077a1e
-      internalID: -734738348
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusScreenStopAnim_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 25
-        width: 111
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6e6021263e12ae540b2c1c94e8c489b9
-      internalID: -1818017781
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusScreenStopAnim_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 111
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 47506c46e16335042aaed54fb14e7f70
-      internalID: 1534166987
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -243,12 +138,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      BusScreenStopAnim_0: 1421248823
-      BusScreenStopAnim_1: -1493267766
-      BusScreenStopAnim_2: -734738348
-      BusScreenStopAnim_4: 1534166987
-      BusScreenStopAnim_3: -1818017781
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
