@@ -54,6 +54,8 @@ public class SignAnimator : MonoBehaviour
 
         if (curInterval <= animPoints[animCount].interval)
         {
+            if (animCount == 3)
+                this.GetComponent<AudioSource>().Play();
             signRenderer.sprite = animPoints[animCount].sprite;
             animCount++;
         }

@@ -17,6 +17,6 @@ public class TrashScript : MonoBehaviour
     {
         audiosource.Play();
         gm.UpdatePoints("Picked up trash", 2);
-        Destroy(gameObject);
+        Destroy(gameObject, 0.5f);
     }
 }
