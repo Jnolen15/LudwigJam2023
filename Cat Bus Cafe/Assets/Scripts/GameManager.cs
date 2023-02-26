@@ -21,6 +21,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject windowMuck;
     [SerializeField] private int points;
 
+    [SerializeField] private AudioClip pointSound1;
+    [SerializeField] private AudioClip pointSound2;
+    [SerializeField] private AudioClip pointSound3;
+    [SerializeField] private AudioClip partySound;
+    [SerializeField] private AudioClip mudSplat;
+    private AudioSource audioSource;
+
     public int Points
     {
         get { return points; }
@@ -37,6 +44,7 @@ public class GameManager : MonoBehaviour
 
         gameTimer = gameTime;
         gameTimerRunning = true;
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -78,9 +86,10 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        audioSource.PlayOneShot(partySound);
         Time.timeScale = 0;
         endScreen.SetActive(true);
-        endScoreText.text = points.ToString(); ;
+        endScoreText.text = points.ToString();
     }
 
     // ========= Events =========
@@ -129,6 +138,14 @@ public class GameManager : MonoBehaviour
         pointsReasonText.text = message + " +" + points;
         StopAllCoroutines();
         StartCoroutine(AnimatePoints());
+
+        var randSound = Random.Range(0, 3);
+        if (randSound == 0)
+            audioSource.PlayOneShot(pointSound1);
+        else if (randSound == 1)
+            audioSource.PlayOneShot(pointSound2);
+        else if (randSound == 1)
+            audioSource.PlayOneShot(pointSound3);
     }
 
     IEnumerator AnimatePoints()
@@ -150,6 +167,7 @@ public class GameManager : MonoBehaviour
     // ========= Window Muck Task =========
     private void StartMuck()
     {
+        audioSource.PlayOneShot(mudSplat);
         windowMuck.SetActive(true);
         bs.StopBus();
     }
