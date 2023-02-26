@@ -32,6 +32,14 @@ public class Cat : MonoBehaviour
 
             Debug.Log("Snack: " + snacky + " Flava: " + flava + milk + boba);
         }
+
+        public void Reset()
+        {
+            snacky = Snack.SnackType.Nothing;
+            flava = Snack.Flavor.Nothing;
+            wifMilk = false;
+            wifBoba = false;
+        }
     }
     
     public string cName;
@@ -105,9 +113,15 @@ public class Cat : MonoBehaviour
         if (waitingForOrder)
         {
             var pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-            pc.GiveMeSnack(this);
-            hasOrdered = false;
-            waitingForOrder = false;
+            bool hasSnack = pc.GiveMeSnack(this);
+            if (hasSnack)
+            {
+                hasOrdered = false;
+                waitingForOrder = false;
+            } else
+            {
+                Debug.Log("No snack to give!");
+            }
         }
 
         if (hasOrdered)
@@ -300,6 +314,8 @@ public class Cat : MonoBehaviour
         // Only request if havnt ordered or not waiting for an order
         if (hasOrdered || waitingForOrder)
             return;
+
+        newSnack.Reset();
 
         var randSound = Random.Range(0, 2);
         if (randSound == 0)

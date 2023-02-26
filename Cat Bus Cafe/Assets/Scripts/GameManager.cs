@@ -169,7 +169,6 @@ public class GameManager : MonoBehaviour
     {
         audioSource.PlayOneShot(mudSplat);
         windowMuck.SetActive(true);
-        bs.StopBus();
     }
 
     public void CleanMuck()

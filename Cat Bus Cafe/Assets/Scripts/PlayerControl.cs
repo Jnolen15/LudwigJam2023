@@ -16,10 +16,10 @@ public class PlayerControl : MonoBehaviour
     }
 
     // Deliver snack to cat. When clicking a cat
-    public void GiveMeSnack(Cat theCat)
+    public bool GiveMeSnack(Cat theCat)
     {
         if (!hasSnack || !theCat.waitingForOrder)
-            return;
+            return false;
 
         Cat.SnackOrder myOrder = new Cat.SnackOrder();
 
@@ -35,6 +35,8 @@ public class PlayerControl : MonoBehaviour
         curSnack = null;
         curSnackScript = null;
         hasSnack = false;
+
+        return true;
     }
 
     // Gets rid of snack when click on trash
