@@ -45,6 +45,7 @@ public class Cat : MonoBehaviour
     public string cName;
     public GameObject popUp;
     public GameObject excalamtionMarker;
+    public GameObject questionMarker;
     public GameObject Pet1;
     public GameObject Pet2;
     public GameObject trash;
@@ -55,7 +56,7 @@ public class Cat : MonoBehaviour
     private bool noDrink;
     public bool petRequested;
     private bool inPetAnim;
-    private bool inPetTime;
+    public bool inPetTime;
     [SerializeField] private float petTime;
     private float petTimer;
     private int numPets;
@@ -118,6 +119,7 @@ public class Cat : MonoBehaviour
             {
                 hasOrdered = false;
                 waitingForOrder = false;
+                questionMarker.SetActive(false);
             } else
             {
                 Debug.Log("No snack to give!");
@@ -128,6 +130,7 @@ public class Cat : MonoBehaviour
         {
             dlog.TypeDialogue(requestMessage, cName);
             excalamtionMarker.SetActive(false);
+            questionMarker.SetActive(true);
             waitingForOrder = true;
         }
     }

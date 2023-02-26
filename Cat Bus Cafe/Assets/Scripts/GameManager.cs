@@ -127,6 +127,8 @@ public class GameManager : MonoBehaviour
             canDoTask = false;
         else if (daCat.petRequested)
             canDoTask = false;
+        else if (daCat.inPetTime)
+            canDoTask = false;
 
         return canDoTask;
     }
