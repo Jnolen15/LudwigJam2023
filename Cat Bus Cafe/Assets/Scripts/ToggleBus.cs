@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToggleBus : MonoBehaviour
 {
-    [SerializeField] private bool busGoing;
+    //[SerializeField] private bool busGoing;
     [SerializeField] private AudioClip rev;
     [SerializeField] private AudioClip breaking;
     private BusControl bc;
@@ -20,15 +20,13 @@ public class ToggleBus : MonoBehaviour
     {
         Debug.Log("Clicked on Coots :3. Toggling bus");
 
-        if (busGoing)
+        if (!bc.busIsStopped)
         {
-            busGoing = !busGoing;
             bc.StopBus();
             audioSource.PlayOneShot(breaking);
         }
         else
         {
-            busGoing = !busGoing;
             bc.StartBus();
             audioSource.PlayOneShot(rev);
         }
