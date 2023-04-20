@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform endPos;
     [SerializeField] private GameObject endScreen;
     [SerializeField] private TextMeshProUGUI endScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+    [SerializeField] private GameObject newHighScoreText;
     [SerializeField] private bool gameTimerRunning;
     [SerializeField] private float gameTime;
     [SerializeField] private float gameTimer;
@@ -90,6 +92,19 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         endScreen.SetActive(true);
         endScoreText.text = points.ToString();
+
+        // High Score:
+        if (points > PlayerPrefs.GetFloat("HighScore", 0))
+        {
+            newHighScoreText.SetActive(true);
+            highScoreText.text = points.ToString();
+            PlayerPrefs.SetFloat("HighScore", points);
+        }
+        else
+        {
+            var highScore = PlayerPrefs.GetFloat("HighScore", 0);
+            highScoreText.text = highScore.ToString();
+        }
     }
 
     // ========= Events =========
