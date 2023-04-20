@@ -228,7 +228,7 @@ public class BusControl : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         // Add new passengers
-        gManager.UpdatePoints(new string("Picked up cats"), Boarding.Count * 1);
+        gManager.UpdatePoints(new string("Picked up cats"), Boarding.Count * 2);
         foreach (Passenger newCat in Boarding)
         {
             var seatOpen = seatControl.AssignSeat(newCat.cat);

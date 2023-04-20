@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip partySound;
     [SerializeField] private AudioClip mudSplat;
     private AudioSource audioSource;
+    private MedalManager medalManager;
 
     public int Points
     {
@@ -47,6 +48,8 @@ public class GameManager : MonoBehaviour
         gameTimer = gameTime;
         gameTimerRunning = true;
         audioSource = this.GetComponent<AudioSource>();
+
+        medalManager = this.GetComponent<MedalManager>();
     }
 
     void Update()
@@ -105,6 +108,8 @@ public class GameManager : MonoBehaviour
             var highScore = PlayerPrefs.GetFloat("HighScore", 0);
             highScoreText.text = highScore.ToString();
         }
+
+        medalManager.UpdateMedals(points);
     }
 
     // ========= Events =========
