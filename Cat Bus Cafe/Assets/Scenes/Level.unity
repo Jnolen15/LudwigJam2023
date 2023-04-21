@@ -293,7 +293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.000061, y: -493.09998}
+  m_AnchoredPosition: {x: 10, y: -493.09998}
   m_SizeDelta: {x: 110.3845, y: 35.4894}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &55185029
@@ -763,7 +763,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.000061, y: -524.89996}
+  m_AnchoredPosition: {x: 10, y: -524.89996}
   m_SizeDelta: {x: 301.19, y: 37.6493}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &86515189
@@ -7433,7 +7433,6 @@ MonoBehaviour:
     name: 
     Cats: []
   catList:
-  - {fileID: 4669602019522604630, guid: e9fb704cb3ed1dc4db3f0f35f0ac7848, type: 3}
   - {fileID: 6912323502027536005, guid: 8d1e41c9e9c14ea4eb442179429a9dee, type: 3}
   - {fileID: 4458589954646806165, guid: b7091e3938b846c4cbf47484708a57e7, type: 3}
   - {fileID: 7472873034486623953, guid: e54abb83f7156a041b54366606633e2e, type: 3}
@@ -7448,6 +7447,15 @@ MonoBehaviour:
   - {fileID: 6560068419947734455, guid: bdff52135ff388947876e83cfbde64cb, type: 3}
   - {fileID: 8460630749527769158, guid: 2deaffd38dbe8b844adb82d880ffe9de, type: 3}
   - {fileID: 4559691611289400252, guid: e88d2d5ad1a563945a0b9c8a75ade450, type: 3}
+  - {fileID: 5831884127074319881, guid: 287a5afd02c99204fb1dbceac86fee29, type: 3}
+  - {fileID: 2800279516189042421, guid: 440e2a3887bea6c44ad48c40d71051b6, type: 3}
+  - {fileID: 8143647276240742278, guid: 215c1d42d90958d4e970589e4a3fc69d, type: 3}
+  - {fileID: 8993298569685456329, guid: e8026a26839f637479a0c540cae7a464, type: 3}
+  - {fileID: 8119266667248711972, guid: b1c39b68f4c64834aa0b4ffda3c5a815, type: 3}
+  - {fileID: 98509217079941284, guid: 2deee50020fb39949901478ce45df477, type: 3}
+  - {fileID: 3743922210621106106, guid: 59906db92e5437142a0c4704f9bba9b2, type: 3}
+  - {fileID: 713972339518717660, guid: 0ad2931d11132074fa13841ec6b4fcb9, type: 3}
+  - {fileID: 7195156514204703888, guid: 4469aed1273439845b2a30b14744d6c8, type: 3}
   Passengers: []
   Leaving: []
   Boarding: []
@@ -8976,7 +8984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.000061, y: -441.8}
+  m_AnchoredPosition: {x: 10, y: -441.8}
   m_SizeDelta: {x: 301.19, y: 37.6493}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1047968067
@@ -12162,7 +12170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 10.000061, y: -410}
+  m_AnchoredPosition: {x: 10, y: -410}
   m_SizeDelta: {x: 110.3845, y: 35.4894}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1709499951
