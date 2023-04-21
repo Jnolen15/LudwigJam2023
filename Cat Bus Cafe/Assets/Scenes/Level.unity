@@ -13547,7 +13547,7 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: 436477a813e7ecc4ebb985b09fe76d1a, type: 3}
   - score: 280
     image: {fileID: 21300000, guid: 86fecc79b5cd7e3469d0e2a96da15364, type: 3}
-  - score: 320
+  - score: 300
     image: {fileID: 21300000, guid: f2c1152c7cc5f524593524ac765ec3fa, type: 3}
 --- !u!1 &1981397147
 GameObject:

@@ -53,6 +53,7 @@ public class Cat : MonoBehaviour
     public string requestMessage;
     public bool hasOrdered;
     public bool waitingForOrder;
+    public bool orderedNothing;
     private bool noDrink;
     public bool petRequested;
     private bool inPetAnim;
@@ -126,7 +127,17 @@ public class Cat : MonoBehaviour
             }
         }
 
-        if (hasOrdered)
+        // Specificly in the rare case where they order nothing and say nevermind
+        if (orderedNothing)
+        {
+            dlog.TypeDialogue(requestMessage, cName);
+            excalamtionMarker.SetActive(false);
+            orderedNothing = false;
+            waitingForOrder = false;
+            hasOrdered = false;
+        }
+        // Normal take order
+        else if (hasOrdered)
         {
             dlog.TypeDialogue(requestMessage, cName);
             excalamtionMarker.SetActive(false);
@@ -463,9 +474,10 @@ public class Cat : MonoBehaviour
         if (noDrink && newSnack.snacky == Snack.SnackType.Nothing)
         {
             requestMessage = "Could I get a... uh... um... wait I'm not hungry. Ok nevermind then.";
-            gManager.UpdatePoints("Free Points?", 10);
-            waitingForOrder = false;
-            hasOrdered = false;
+            gManager.UpdatePoints("Free Points?", 5);
+            orderedNothing = true;
+            //waitingForOrder = false;
+            //hasOrdered = false;
         }
     }
 }
